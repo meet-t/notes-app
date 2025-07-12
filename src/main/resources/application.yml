@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: notes-app
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:h2:mem:notesdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      mode: embedded
+  data.redis:
+    host: localhost
+    port: 6379
+logging:
+  level:
+    io.noter: DEBUG
+app:
+  jwt:
+    secret: dummy-key
+    expirationMinutes: 30
+    issuer: notes-app
+    audience: your-audience-name
+    claim:
+      userId: userId
+      name: name
+      email: email
+
+springdoc:
+  swagger-ui:
+    display-request-duration: true
+    groups-order: DESC
+    operationsSorter: method
+    disable-swagger-default-url: false
+    use-root-path: true
+  show-actuator: true
+  cache:
+    disabled: true
+  default-produces-media-type: application/json
+  default-consumes-media-type: application/json
