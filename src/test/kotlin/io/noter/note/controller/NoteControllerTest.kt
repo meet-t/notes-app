@@ -188,9 +188,9 @@ class NoteControllerTest(
         val noteResponse = NoteResponse(1L, "Sample Note", "Note content", curTime,curTime,curTime.plus(1, ChronoUnit.HOURS))
 
         every { noteService.create(any()) } returns noteResponse
-        val numberOfRequests = 5
+        val numberOfRequests = RateLimitPlan.resolvePlanFromPath("/api/v1/notes").getLimit().capacity
         var successfulRequests = 0
-        repeat (numberOfRequests) {
+        repeat (numberOfRequests.toInt()) {
             mockMvc.post("/api/v1/notes") {
                 contentType = MediaType.APPLICATION_JSON
                 content = mapper.writeValueAsString(noteRequest)
