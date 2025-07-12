@@ -30,7 +30,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"email\": \"jack@sample.com\",\n  \"name\": \"Jack\",\n  \"password\": \"Password123!\"\n}",
+									"raw": "{\n  \"email\": \"jack@example.com\",\n  \"name\": \"Jack\",\n  \"password\": \"Password123!\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -230,7 +230,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"email\": \"jack@sample.com\",\n  \"password\": \"Password123!\"\n}",
+									"raw": "{\n  \"email\": \"alice@example.com\",\n  \"password\": \"Password123!\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
