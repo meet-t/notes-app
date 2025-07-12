@@ -113,7 +113,7 @@ I've added a Postman collection that you can import to easily test the API endpo
 
 **Step 1**: Download the collection from the following link:
 
-- [Download Postman Collection (JSON)](https://github.com/meet-t/notes-app/blob/c99476419431d1e9baedda357412f57cf001a5ac/postman/Noter%20App%20API.postman_collection.json)
+- [Download Postman Collection (JSON)](https://github.com/meet-t/notes-app/blob/825d4c6c918582735d432f222fca1b5432346d6a/postman/Noter%20App%20API.postman_collection.json)
 
 **Step 2**: Import the collection into Postman:
 1. Open Postman.
