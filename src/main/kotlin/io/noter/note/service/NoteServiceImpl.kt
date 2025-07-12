@@ -26,6 +26,7 @@ class NoteServiceImpl(
 
     private val log = LoggerFactory.getLogger(javaClass)
 
+    @Transactional
     @CacheEvict(value = ["latestNotes"], key = "#request.userId")
     override fun create(request: NoteRequest): NoteResponse {
         val note = Note(
@@ -40,14 +41,17 @@ class NoteServiceImpl(
         return createdNote
     }
 
+    @Transactional
     @CacheEvict(value = ["latestNotes"], key = "#request.userId")
     override fun update(request: NoteRequest): NoteResponse {
         val existing = noteRepository.findByIdAndUserId(request.id!!, request.userId!!)
             ?: throw IllegalArgumentException("Note not found for id ${request.id} and user ${request.userId}")
 
-        request.title.let { existing.title = it }
-        request.content.let { existing.content = it }
-        request.expiresAt.let { existing.expiresAt = it }
+        existing.apply {
+            request.title.takeIf { it.isNotBlank() }?.let { title = it }
+            request.content.takeIf { !it.isNullOrBlank() }?.let { content = it }
+            request.expiresAt?.let { expiresAt = it }
+        }
         val note = noteRepository.save(existing).toDto()
         log.info("Updated noteId: ${note.id}")
         return note
