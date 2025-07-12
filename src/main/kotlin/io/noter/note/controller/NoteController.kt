@@ -47,7 +47,7 @@ class NoteController(
         @RequestParam(required = false, value = "size") size: Int = 10,
         @RequestParam(defaultValue = "updatedOn") sortBy: String,
         @RequestParam(defaultValue = "desc") direction: String): ResponseEntity<PageDto<NoteSummaryResponse>> {
-
+        log.info("Getting notes for user $userId")
         val safeSortBy = if (sortBy in allowedSortFields) sortBy else "createdOn"
         val sortDirection = if (direction.equals("asc", ignoreCase = true)) Sort.Direction.ASC else Sort.Direction.DESC
         val pageable = PageRequest.of(page, size, Sort.by(sortDirection, safeSortBy))
@@ -78,6 +78,7 @@ class NoteController(
         @RequestAttribute(Constants.USERID_ATTRIBUTE) userId: String,
         @RequestBody @Valid request: NoteRequest,
     ): ResponseEntity<NoteResponse> {
+        log.debug("creating note {}", request.userId)
         request.userId = UUID.fromString(userId)
         return ResponseEntity.ok(noteService.create(request))
     }
@@ -92,6 +93,7 @@ class NoteController(
         @PathVariable id: Long,
         @RequestBody @Valid request: NoteRequest,
     ): ResponseEntity<NoteResponse> {
+        log.debug("updating note by id $id")
         request.id = id
         request.userId = UUID.fromString(userId)
         return ResponseEntity.ok(noteService.update(request))
@@ -106,6 +108,7 @@ class NoteController(
         @RequestAttribute(Constants.USERID_ATTRIBUTE) userId: String,
         @PathVariable id: Long,
     ): ResponseEntity<Void> {
+        log.debug("deleting note by id $id")
         noteService.delete(UUID.fromString(userId), id)
         return ResponseEntity.noContent().build()
     }
@@ -114,6 +117,7 @@ class NoteController(
     fun getLatestNotes(
         @RequestAttribute(Constants.USERID_ATTRIBUTE) userId: String,
     ): ResponseEntity<List<NoteSummaryResponse>> {
+        log.debug("getting latest notes for user $userId")
         val notesList = noteService.findLatestByUserId(UUID.fromString(userId))
         return ResponseEntity.ok(notesList)
     }

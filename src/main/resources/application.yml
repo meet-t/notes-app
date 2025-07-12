@@ -15,10 +15,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
   sql:
     init:
       mode: embedded
@@ -28,12 +28,13 @@ spring:
 logging:
   level:
     io.noter: DEBUG
+    io.noter.util.DataLoader: INFO
 app:
   jwt:
     secret: dummy-key
     expirationMinutes: 30
     issuer: notes-app
-    audience: your-audience-name
+    audience: api
     claim:
       userId: userId
       name: name

@@ -10,14 +10,14 @@ import java.time.Duration
 enum class RateLimitPlan {
     FREE {
         override fun getLimit(): Bandwidth = Bandwidth.builder()
-                .capacity(2)
-                .refillIntervally(2, Duration.ofMinutes(1))
+                .capacity(5)
+                .refillIntervally(5, Duration.ofSeconds(30))
                 .build()
         },
     BASIC {
         override fun getLimit(): Bandwidth = Bandwidth.builder()
-            .capacity(5)
-            .refillIntervally(5, Duration.ofMinutes(1))
+            .capacity(10)
+            .refillIntervally(10, Duration.ofSeconds(30))
             .build()
     };
 

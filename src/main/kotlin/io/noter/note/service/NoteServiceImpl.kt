@@ -35,7 +35,9 @@ class NoteServiceImpl(
             content = request.content,
             expiresAt = request.expiresAt
         )
-        return noteRepository.save(note).toDto()
+        val createdNote = noteRepository.save(note).toDto()
+        log.info("Created noteId: ${createdNote.id}")
+        return createdNote
     }
 
     @CacheEvict(value = ["latestNotes"], key = "#request.userId")
@@ -46,8 +48,9 @@ class NoteServiceImpl(
         request.title.let { existing.title = it }
         request.content.let { existing.content = it }
         request.expiresAt.let { existing.expiresAt = it }
-
-        return noteRepository.save(existing).toDto()
+        val note = noteRepository.save(existing).toDto()
+        log.info("Updated noteId: ${note.id}")
+        return note
     }
 
     @Transactional
@@ -56,9 +59,11 @@ class NoteServiceImpl(
         val note = noteRepository.findByIdAndUserId(noteId, userId)
             ?: throw IllegalArgumentException("Note not found for id $noteId and user $userId")
         noteRepository.delete(note)
+        log.info("Deleted note $noteId for user $userId")
     }
 
     override fun findByNoteIdAndUserId(userId: UUID, noteId: Long): NoteResponse {
+        log.info("findByNoteIdAndUserId: $noteId for user $userId")
         val note = noteRepository.findByIdAndUserId(noteId, userId)
             ?: throw DetailedRequestException(HttpStatus.NOT_FOUND,HttpStatus.NOT_FOUND.name,"Note not found for id $noteId and user $userId")
 
@@ -70,6 +75,7 @@ class NoteServiceImpl(
     }
 
     override fun findAllValidNotes(userId: UUID,pageable: Pageable): PageDto<NoteSummaryResponse> {
+        log.info("findAllValidNotes user $userId")
         val notesList =  noteRepository
             .findValidNotesByUserId(userId, Instant.now(),pageable)
 
@@ -79,6 +85,7 @@ class NoteServiceImpl(
     @Cacheable(value = ["latestNotes"], key = "#userId")
     override fun findLatestByUserId(userId: UUID): List<NoteSummaryResponse> {
         val pageable = PageRequest.of(0, 1000, Sort.by(Sort.Direction.DESC, "createdOn"))
+        log.info("findLatestByUserId $userId")
         val notesList =  noteRepository
             .findValidNotesByUserId(userId, Instant.now(),pageable)
 

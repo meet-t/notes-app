@@ -1,6 +1,6 @@
 # 🗝️ Secret Notes - Kotlin Spring Boot Application
 
-A secure and efficient note-taking backend application built with **Kotlin + Spring Boot**, supporting JWT-based user authentication and per-user rate limiting
+Note-taking backend application built with **Kotlin + Spring Boot**, supporting JWT-based user authentication and per-user rate limiting
 
 ---
 
@@ -113,7 +113,7 @@ I've added a Postman collection that you can import to easily test the API endpo
 
 **Step 1**: Download the collection from the following link:
 
-- [Download Postman Collection (JSON)](https://github.com/yourusername/your-repo/blob/main/postman/your-collection.json)
+- [Download Postman Collection (JSON)](https://github.com/meet-t/notes-app/blob/c99476419431d1e9baedda357412f57cf001a5ac/postman/Noter%20App%20API.postman_collection.json)
 
 **Step 2**: Import the collection into Postman:
 1. Open Postman.

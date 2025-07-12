@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service
  * @property userService Service for user-related operations.
  * @property passwordEncoder Password encoder for hashing passwords.
  * @property jwtService Service for generating JWT tokens.
- */
+*/
 @Service
 class AuthServiceImpl(
     private val userService: UserService,

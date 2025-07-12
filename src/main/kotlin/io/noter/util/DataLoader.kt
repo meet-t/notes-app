@@ -2,6 +2,7 @@ package io.noter.util
 
 import io.noter.note.entity.Note
 import io.noter.note.repo.NoteRepository
+import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
@@ -15,10 +16,11 @@ import java.util.*
 @Component
 @ConditionalOnProperty(name = ["spring.datasource.url"], havingValue = "jdbc:h2:mem:notesdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE", matchIfMissing = true)
 class DataLoader(private val noteRepository: NoteRepository) : CommandLineRunner {
-
+    private val log = LoggerFactory.getLogger(javaClass)
     override fun run(vararg args: String?) {
+
         val numberOfNotes= 1100
-        // Example of populating 1100 notes
+        log.info("Creating $numberOfNotes new notes")
         val notes = (1..numberOfNotes).map {
             Note(
                 userId = UUID.fromString("11111111-1111-1111-1111-111111111111"),
@@ -32,7 +34,7 @@ class DataLoader(private val noteRepository: NoteRepository) : CommandLineRunner
             )
         }
 
-        // Save the notes to the database
         noteRepository.saveAll(notes)
+        log.info("Completed $numberOfNotes new notes creation!")
     }
 }
